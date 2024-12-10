@@ -10,7 +10,7 @@
 
 1. Install required package:
 ```bash
-pip3 install requirements.txt
+pip3 install -r requirements.txt
 ```
 
 ## Steps to Transfer Music
