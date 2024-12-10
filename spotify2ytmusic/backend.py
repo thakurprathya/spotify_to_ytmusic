@@ -19,17 +19,17 @@ def get_ytmusic() -> YTMusic:
     """
     @@@
     """
-    if not os.path.exists("oauth.json"):
-        print("ERROR: No file 'oauth.json' exists in the current directory.")
-        print("       Have you logged in to YTMusic?  Run 'ytmusicapi oauth' to login")
+    browser_json = "/Users/prathyathakur/Desktop/env/spotify_to_ytmusic/spotify2ytmusic/browser.json"
+    if not os.path.exists(browser_json):
+        print("ERROR: No authentication files found")
+        print("Run 'ytmusicapi oauth' to generate credentials")
         sys.exit(1)
-
+        
     try:
-        return YTMusic("oauth.json")
-    except json.decoder.JSONDecodeError as e:
-        print(f"ERROR: JSON Decode error while trying start YTMusic: {e}")
-        print("       This typically means a problem with a 'oauth.json' file.")
-        print("       Have you logged in to YTMusic?  Run 'ytmusicapi oauth' to login")
+        return YTMusic(browser_json)
+    except Exception as e:
+        print(f"ERROR: Invalid browser.json format: {e.__traceback__}")
+        print("Run 'ytmusicapi oauth' to generate fresh credentials")
         sys.exit(1)
 
 
@@ -77,8 +77,8 @@ def _ytmusic_create_playlist(
     return id
 
 
-def load_playlists_json(filename: str = "playlists.json", encoding: str = "utf-8"):
-    """Load the `playlists.json` Spotify playlist file"""
+def load_playlists_json(filename: str = "/Users/prathyathakur/Desktop/env/spotify_to_ytmusic/spotify2ytmusic/playlists.json", encoding: str = "utf-8"):
+    """Load the `/Users/prathyathakur/Desktop/env/spotify_to_ytmusic/spotify2ytmusic/playlists.json` Spotify playlist file"""
     return json.load(open(filename, "r", encoding=encoding))
 
 
@@ -100,7 +100,7 @@ def create_playlist(pl_name: str, privacy_status: str = "PRIVATE") -> None:
 
 
 def iter_spotify_liked_albums(
-    spotify_playlist_file: str = "playlists.json",
+    spotify_playlist_file: str = "/Users/prathyathakur/Desktop/env/spotify_to_ytmusic/spotify2ytmusic/playlists.json",
     spotify_encoding: str = "utf-8",
 ) -> Iterator[SongInfo]:
     """Songs from liked albums on Spotify."""
@@ -116,7 +116,7 @@ def iter_spotify_liked_albums(
 
 def iter_spotify_playlist(
     src_pl_id: Optional[str] = None,
-    spotify_playlist_file: str = "playlists.json",
+    spotify_playlist_file: str = "/Users/prathyathakur/Desktop/env/spotify_to_ytmusic/spotify2ytmusic/playlists.json",
     spotify_encoding: str = "utf-8",
     reverse_playlist: bool = True,
 ) -> Iterator[SongInfo]:
@@ -124,7 +124,7 @@ def iter_spotify_playlist(
 
     Args:
         `src_pl_id` (Optional[str], optional): The ID of the source playlist. Defaults to None.
-        `spotify_playlist_file` (str, optional): The path to the playlists backup files. Defaults to "playlists.json".
+        `spotify_playlist_file` (str, optional): The path to the playlists backup files. Defaults to "/Users/prathyathakur/Desktop/env/spotify_to_ytmusic/spotify2ytmusic/playlists.json".
         `spotify_encoding` (str, optional): Characters encoding. Defaults to "utf-8".
         `reverse_playlist` (bool, optional): Is the playlist reversed when loading?  Defaults to True.
 
